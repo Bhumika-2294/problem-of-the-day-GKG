@@ -1,0 +1,40 @@
+class Solution
+{
+    public:
+     void join(Node*& node1,Node*& ans){
+        struct Node* temp = node1;
+        node1=node1->next;
+        temp->next=NULL;
+        if(!ans){
+            ans=temp;
+        }else{
+            temp->next = ans;
+            ans = temp;
+        }
+    }
+    
+    struct Node * mergeResult(Node*  node1,Node *node2)
+    {
+        // your code goes here
+        struct Node* ans = NULL;
+        while(node1 && node2){
+            if(node1->data < node2->data){
+                join(node1, ans);
+              
+            }else{
+                join(node2, ans);
+               
+            }
+        }
+        while(node1){
+            join(node1, ans);
+        }
+        while(node2){
+            join(node2, ans);
+        }
+        
+        return ans;
+    }  
+    
+   
+};
