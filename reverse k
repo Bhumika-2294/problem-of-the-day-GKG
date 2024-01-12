@@ -1,0 +1,36 @@
+// User function Template for C++
+
+class Solution
+{
+    public:
+    
+    // Function to reverse first k elements of a queue.
+    queue<int> modifyQueue(queue<int> q, int k) {
+        // add code here.
+        stack<int> st;
+       int n = q.size();
+        queue<int> qq;
+        for(int i = 0 ;i<k;i++){
+            int a = q.front();
+            st.push(a);
+            q.pop();
+        }
+      
+        for(int i = 0 ;i<k;i++){
+            
+            int a = st.top();
+            st.pop();
+            //q.pop();
+            qq.push(a);
+            
+        }
+        for(int i = k;i<n;i++){
+            int a = q.front();
+            qq.push(a);
+            q.pop();
+        }
+        //qq.pop();
+        
+        return qq ;
+    }
+};
