@@ -1,0 +1,42 @@
+//User function Template for C++
+
+/* Node of the binary search tree 
+class Node
+{
+public:
+    int data;
+    Node *left;
+    Node *right;
+    Node(int val)
+    {
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+*/
+
+class Solution
+{
+public:
+Node* head=NULL;
+Node* prev=NULL;
+    void BSTtoLL(Node* root){
+        if(root==NULL) return;
+        BSTtoLL(root->left);
+        if(head==NULL){
+            head=root;
+        }
+        if(prev) prev->right=root;
+        prev=root;
+        root->left=NULL;
+        BSTtoLL(root->right);
+    }
+    Node *flattenBST(Node *root)
+    {
+        // code here
+        BSTtoLL(root);
+        return head;
+        
+    }
+};
