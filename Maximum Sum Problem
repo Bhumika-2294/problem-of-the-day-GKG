@@ -1,0 +1,15 @@
+class Solution {
+public:
+    long long maxSum(int n)
+    {
+        if (n == 0)
+            return 0;
+        vector<long long> result(n + 1);
+        for (int i = 1; i <= n; ++i)
+        {
+            long long divided = result[i / 2] + result[i / 3] + result[i / 4];
+            result[i] = max((long long)i, divided);
+        }
+        return result[n];
+    }
+};
