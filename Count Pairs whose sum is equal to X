@@ -1,0 +1,14 @@
+class Solution{
+  public:
+    // your task is to complete this function
+    int countPairs(struct Node* h1, struct Node* h2, int x) {
+        unordered_set<int> m;
+        for(;h1;h1=h1->next) m.insert(h1->data);
+        int ans=0;
+        for(;h2;h2=h2->next)
+        {
+            if(m.find(x-h2->data)!=m.end()) ans++;
+        }
+        return ans;
+    }
+};
