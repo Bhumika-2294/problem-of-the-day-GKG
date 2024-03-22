@@ -1,0 +1,31 @@
+class Solution {
+  public:
+    vector<int> diagonalSum(Node* root) {
+        queue<pair<Node*,int>> level;
+        map<int, int> mp;
+        level.push({root,0});
+        while(!level.empty())
+        {
+            pair<Node*, int> temp = level.front();
+            mp[temp.second] += temp.first->data;
+            level.pop();
+            if(temp.first->left)
+            {
+                level.push({temp.first->left,temp.second+1});
+            }
+            if(temp.first->right)
+            {
+                level.push({temp.first->right, temp.second});
+            }
+        }
+        vector<int> sum;
+        map<int, int>::iterator it = mp.begin();
+ 
+        // Iterate through the map and print the elements
+        while (it != mp.end()) {
+            sum.push_back(it->second);
+            ++it;
+        }
+        return sum;
+    }
+};
