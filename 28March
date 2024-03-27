@@ -1,0 +1,60 @@
+//User function Template for C++
+
+class Solution
+{
+public:
+    int findShortestPath(vector<vector<int>> &mat)
+    {
+       // code here
+       int n=mat.size();
+       int m=mat[0].size();
+       vector<vector<int>> vis(n,vector<int>(m, 1000000));
+       int ans=1000000;
+       queue<pair<int,int>> q;
+       int x[4]={0,1,-1,0};
+       int y[4]={1,0,0,-1};
+       for(int i=0;i<n;i++){
+           for(int j=0;j<m;j++){
+               if(mat[i][j]==0){
+                    for(int k=0;k<4;k++){
+                        if(i+x[k]>=0 && i+x[k]<n && j+y[k]>=0 && j+y[k]<m){
+                            mat[i+x[k]][j+y[k]]=10;
+                        }
+                    }
+               }
+           }
+       }
+       
+       for(int i=0;i<n;i++){
+           if(mat[i][0]==1){
+               vis[i][0]=1;
+               q.push({i,0});
+           }
+       }
+       while(!q.empty()){
+           int a=q.front().first;
+           int b=q.front().second;
+           q.pop();
+           for(int i=0; i<4; i++){
+                if(a+x[i]>=0 && a+x[i]<n && b+y[i]>=0 && b+y[i]<m) {
+                    if(mat[a+x[i]][b+y[i]]==1){
+                        if(vis[a][b]+1<vis[a+x[i]][b+y[i]]){
+                            vis[a+x[i]][b+y[i]]=vis[a][b]+1;
+                            q.push({a+x[i], b+y[i]});
+                        }
+                    }
+                }
+           }
+       }
+    //   for(int i=0;i<n;i++){
+    //       for(int j=0;j<m;j++){
+    //           cout << vis[i][j] << " ";
+    //       }
+    //       cout << endl;
+    //   }
+       for(int i=0;i<n;i++){
+           ans=min(vis[i][m-1], ans);
+       }
+       return ans==1000000 ? -1 : ans;
+    }
+};
