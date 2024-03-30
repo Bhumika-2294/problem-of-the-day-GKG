@@ -1,0 +1,17 @@
+class Solution {
+  public:
+    int minValue(Node* root) {
+        // base case
+        if (root == NULL)
+            return -1;
+
+        struct Node* current = root;
+
+        // leftmost node is minimum so we move in BST till left node is not NULL.
+        while (current->left != NULL) {
+            current = current->left;
+        }
+        // returning the data at leftmost node.
+        return (current->data);
+    }
+};
