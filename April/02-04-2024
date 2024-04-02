@@ -1,0 +1,35 @@
+class Solution
+{
+public:
+  int inorderTraverse(Node *root, int &val, int &min_dif)
+  {
+    // Traverse the left subtree if it exists
+    if (root->left != NULL)
+      inorderTraverse(root->left, val, min_dif);
+
+    // Update the minimum difference if the current node is greater than
+    // or equal to the previously visited node
+    if (val >= 0)
+      min_dif = min(min_dif, root->data - val);
+
+    // Update the previous value with the current node's value
+    val = root->data;
+
+    // Traverse the right subtree if it exists
+    if (root->right != NULL)
+      inorderTraverse(root->right, val, min_dif);
+
+    // Return the minimum difference
+    return min_dif;
+  }
+
+  // Function to find the minimum absolute difference between adjacent nodes in a binary tree
+  int absolute_diff(Node *root)
+  {
+    // Initialize minimum difference and previous value variables
+    auto min_dif = INT_MAX, val = -1;
+
+    // Call the inorder traversal function to find the minimum difference
+    return inorderTraverse(root, val, min_dif);
+  }
+};
