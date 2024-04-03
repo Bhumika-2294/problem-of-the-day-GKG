@@ -1,0 +1,39 @@
+class Solution
+{
+    public:
+    
+    void keypair(Node* root, unordered_map<Node*, Node*> &m){
+        if(root==NULL)  return ;
+        if(root->left)  m[root->left]=root;
+        if(root->right)     m[root->right]=root;
+        keypair(root->left, m);
+        keypair(root->right, m);
+    }
+    
+    /*You are required to complete below function */
+    int kthCommonAncestor(Node *root, int k,int x, int y)
+    {
+        // your code goes here
+        unordered_map<Node*, Node*> m;
+        keypair(root, m);
+        if(root->data==x || root->data==y){
+            while(k>1 && m[root]){
+                root=m[root];
+                k--;
+            }
+            if(k==1)    return root->data;
+        }
+        else{
+            while((root->data>x && root->data>y) || (root->data<x && root->data<y)){
+                if(root->data>x && root->data>y)    root=root->left;
+                else if(root->data<x && root->data<y)   root=root->right;
+            }
+            while(k>1 && m[root]){
+                root=m[root];
+                k--;
+            }
+            if(k==1)    return root->data;
+        }
+        return -1;
+    }
+};
