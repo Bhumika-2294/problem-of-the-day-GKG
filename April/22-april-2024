@@ -1,0 +1,22 @@
+class Solution {
+  public:
+    // Function to find the row with minimum number of 1s.
+    int minRow(int n, int m, vector<vector<int>> a) {
+        int i, j, mn = (int)(1e6), mni = -1;
+        // iterating over rows of the matrix
+        for (i = 0; i < n; i++) {
+            int c = 0;
+            // counting the number of 1s in each row
+            for (j = 0; j < m; j++) {
+                c += (a[i][j] == 1);
+            }
+            // updating the minimum number of 1s and row index if found
+            if (mn > c) {
+                mn = c;
+                mni = i + 1;
+            }
+        }
+        // returning the row index with minimum number of 1s
+        return mni;
+    }
+};
