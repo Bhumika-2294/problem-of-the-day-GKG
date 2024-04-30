@@ -1,0 +1,61 @@
+class Solution
+{
+    public:
+    //Function to add two numbers represented by linked list.
+  Node* trimZeros(Node* head){
+        if(head->data == 0){
+            while(head->data == 0){
+                head = head->next;
+                if(head == NULL){
+                    return new Node(0);
+                }
+            }
+        }
+        return head;
+    }
+    
+    Node* reversell(Node* temp){
+        Node* prev = NULL;
+        while(temp!=NULL){
+            Node* next = temp->next;
+            temp->next = prev;
+            prev = temp;
+            temp = next;
+        }
+        return prev;
+    }
+    
+    //Function to add two numbers represented by linked list.
+    struct Node* addTwoLists(struct Node* num1, struct Node* num2)
+    {
+        Node* temp1 = num1;
+        Node* temp2 = num2;
+        temp1 = reversell(temp1);
+        temp2 = reversell(temp2);
+        Node* dummy = new Node(-1);
+        Node* tempo = dummy;
+        int carry =0;
+        
+        while(temp1 != NULL || temp2 != NULL || carry){
+            int sum=0;
+            if(temp1){
+                sum += temp1->data;
+                temp1 = temp1->next;
+            }
+            if(temp2){
+                sum += temp2->data;
+                temp2 = temp2->next;
+            }
+            sum += carry;
+            Node* newlist = new Node(sum % 10);
+            carry = sum / 10;
+            tempo->next = newlist;
+            tempo = tempo->next;
+        }
+        
+        dummy->next = reversell(dummy->next);
+        dummy->next = trimZeros(dummy->next);
+
+        return dummy->next;
+    }
+};
