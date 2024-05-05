@@ -1,0 +1,27 @@
+class Solution {
+public:
+    void verticalUtil(Node* node, int hd, map<int,int>& Map) {
+        if (node == NULL) {
+            return;
+        }
+        
+        verticalUtil(node->left, hd - 1, Map);
+        
+        Map[hd] += node->data;
+        
+        verticalUtil(node->right, hd + 1, Map);
+    }
+    
+    vector<int> verticalSum(Node *root) {
+        map<int, int> Map;
+        verticalUtil(root, 0, Map);
+        
+        vector<int> result;
+        for (const auto& pair : Map) {
+            result.push_back(pair.second);
+        }
+        
+        return result;
+    }
+};
+
