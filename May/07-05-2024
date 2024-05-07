@@ -1,0 +1,36 @@
+static void
+addNodesToMap(Node* node, int level,
+              unordered_map<int, vector<int> >& nodeMap)
+{
+    if (node == nullptr) {
+        return;
+    }
+    // Add the current node to the list of nodes at its
+    // level in the map
+    nodeMap[level].push_back(node->data);
+    // Recursively traverse the left and right subtrees
+    addNodesToMap(node->left, level + 1, nodeMap);
+    addNodesToMap(node->right, level + 1, nodeMap);
+}
+
+vector<int> reverseLevelOrder(Node* root)
+{
+    // code here
+    vector<int> result;
+    // Create a map to store the nodes at each level of the
+    // binary tree
+    unordered_map<int, vector<int> > nodeMap;
+    // Traverse the binary tree recursively and add nodes to
+    // the map
+    addNodesToMap(root, 0, nodeMap);
+    // Iterate over the map in reverse order of the levels
+    // and add nodes to the result vector
+    for (int level = nodeMap.size() - 1; level >= 0;
+         level--) {
+        vector<int>& nodesAtLevel = nodeMap[level];
+        for (int i = 0; i < nodesAtLevel.size(); i++) {
+            result.push_back(nodesAtLevel[i]);
+        }
+    }
+    return result;
+}
