@@ -1,0 +1,31 @@
+
+class Solution{
+    public:
+    int findClosest( int n, int k,int arr[]) 
+    { 
+        // Complete the function
+        int low = 0;
+        int high = n-1;
+        int ans = arr[0];
+        
+        while(low <=high){
+            int mid = (low + high)/2;
+            if(abs(arr[mid] - k) == abs(ans - k)){
+                ans = max(ans , arr[mid]);
+            }
+            else if(abs(arr[mid] - k) < abs(ans - k)){
+                ans = arr[mid];
+            }
+            if(arr[mid] == k){
+                return k;
+            }
+            else if(arr[mid] < k){
+                low = mid+1;
+            }
+            else{
+                high = mid-1;
+            }
+        }
+        return ans;
+    } 
+};
