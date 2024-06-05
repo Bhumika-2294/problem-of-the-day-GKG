@@ -1,0 +1,38 @@
+class Solution {
+
+  public:
+    int findSwapValues(int a[], int n, int b[], int m) {
+         int sum1=0,sum2=0;
+        for(int i=0;i<n;i++){
+            sum1+=a[i];
+        }   
+        for(int i=0;i<m;i++){
+            sum2+=b[i];
+        }   
+        int sum=sum1+sum2;
+        if(sum%2!=0)
+        return -1;
+        int avg=sum/2;
+        
+        
+        map<int,int> mp; 
+        
+        for(int i=0;i<m;i++){
+            mp[b[i]]++;
+        }
+        
+        for(int i=0;i<n;i++){
+            if(sum1<sum){
+                int diff=avg-sum1;
+                if(mp.find(a[i]+diff)!=mp.end())
+                return 1;
+            }
+            else{
+                int diff=sum1-avg;
+                if(mp.find(a[i]-diff)!=mp.end())
+                return 1;
+            }
+        }
+        return -1;
+    }
+};
