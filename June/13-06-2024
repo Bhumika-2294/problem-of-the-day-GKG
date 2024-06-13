@@ -1,0 +1,21 @@
+class Solution {
+  public:
+    int padovanSequence(int n) {
+        // code here.
+        long long int x= 1000000007;
+        int t=1,a=1,b=1,c=1;
+        if(n<=2)return 1;
+        if(n==3)return 2;
+        for(int i=3;i<=n;i++)
+        {
+            t=(b+c)%x;
+             c=b;
+            b=a;
+           
+            a=t;
+            
+        }
+        
+        return t%x;
+    }
+};
