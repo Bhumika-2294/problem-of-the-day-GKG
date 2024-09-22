@@ -1,0 +1,25 @@
+class Solution {
+  public:
+    int lps(string str) {
+        // Your code goes here
+        int prefix=0;
+        int sufix=1;
+        int count=0;
+        int position=1;
+        int n=str.size();
+        
+        while(sufix<n){
+            if(str[prefix]==str[sufix]){
+                prefix++;
+                sufix++;
+                count++;
+            }else{
+                prefix=0;
+                position++;
+                sufix=position;
+                count=0;
+            }
+        }
+        return count;
+    }
+};
