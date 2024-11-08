@@ -1,0 +1,26 @@
+class Solution {
+  public:
+    int minRepeats(string& s1, string& s2) {
+        // code here
+        unordered_set<char>res1(s1.begin(),s1.end());
+        unordered_set<char>res2(s2.begin(),s2.end());
+        if(res1.size()<res2.size()){
+            return -1;
+        }
+        int count=1;
+        string repstr=s1;
+        while(repstr.size()<s2.size()){
+            repstr+=s1;
+            count++;
+        }
+        if(repstr.find(s2)!= string::npos){
+        return count;
+        }
+        repstr+=s1;
+        count++;
+        if(repstr.find(s2)!= string::npos){
+            return count;
+        }
+        return -1;
+    }
+};
