@@ -1,0 +1,27 @@
+ 
+class Solution {
+public:
+    vector<vector<int>> dp;
+
+    int solve(vector<int> &coins, int sum, int curr, int ind) 
+    {
+        if (curr == sum) return 0;
+        if (curr > sum) return INT_MAX;
+        if (dp[curr][ind] != -1) return dp[curr][ind];
+
+        int ans = INT_MAX;
+        for (int i = ind; i < coins.size(); i++) 
+        {
+            int res = solve(coins, sum, curr + coins[i], i);
+            if (res != INT_MAX) ans = min(ans, 1 + res);
+        }
+
+        return dp[curr][ind] = ans;
+    }
+
+    int minCoins(vector<int> &coins, int sum) {
+        dp = vector<vector<int>>(sum + 1, vector<int>(coins.size(), -1));
+        int res = solve(coins, sum, 0, 0);
+        return (res == INT_MAX) ? -1 : res;
+    }
+};
