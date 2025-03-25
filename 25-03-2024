@@ -1,0 +1,59 @@
+class Solution {
+    int solve(int low, int high, char ch, string& str, vector<vector<vector<int> > > &dp){
+        if(low > high) return 0;
+        if(low == high) return ch == str[low];
+        
+        int ans = 0;
+        
+        int c = 1;
+        if(ch == 'F') c = 0;
+        if(dp[low][high][c] != -1) return dp[low][high][c]; 
+        
+        for(int i=low+1;i<=high;i+=2){
+            int lt = solve(low, i-1, 'T', str, dp);
+            int lf = solve(low, i-1, 'F', str, dp);
+            int rt = solve(i+1, high, 'T', str, dp);
+            int rf = solve(i+1, high, 'F', str, dp);
+            
+            if(str[i] == '&'){
+                if(ch == 'T'){
+                    ans += (lt * rt);
+                }
+                else {
+                    ans += (lt * rf);
+                    ans += (lf * rt);
+                    ans += (lf * rf);
+                }
+            }
+            else if(str[i] == '|'){
+                if(ch == 'T'){
+                    ans += (lt * rt);
+                    ans += (lf * rt);
+                    ans += (lt * rf);
+                }
+                else ans += (lf * rf);
+            }
+            else {
+                if(ch == 'T'){
+                    ans += (lf * rt);
+                    ans += (lt * rf);
+                }
+                else {
+                    ans += (lt * rt);
+                    ans += (lf * rf);
+                }
+            }
+        }
+        
+        return dp[low][high][c] = ans;
+    }
+  public:
+    int countWays(string &s) {
+        // code here
+        
+        int n = s.size();
+        vector<vector<vector<int> > > dp(n, vector<vector<int> > (n, vector<int> (2, -1)));
+        
+        return solve(0, n-1, 'T', s, dp);
+    }
+};
