@@ -1,0 +1,19 @@
+class Solution {
+  public:
+    vector<int> singleNum(vector<int>& arr) {
+        vector<int>ans;
+        int n = arr.size();
+        unordered_map<int, int>freq;
+        for(int x:arr){
+            freq[x]++;
+        }
+        for(auto it:freq){
+            if(it.second ==1){
+                ans.push_back(it.first);
+            }
+        }
+        sort(ans.begin(),ans.end());
+        return ans;
+        // Code here.
+    }
+};
