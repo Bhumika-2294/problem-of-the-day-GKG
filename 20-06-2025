@@ -1,0 +1,42 @@
+def validgroup(arr, k):
+    # Sort the arr to make consecutive grouping easier
+    arr.sort()
+
+    # Traverse the sorted arr
+    for i in range(len(arr)):
+        # Skip if the card is already used
+        if arr[i] == -1:
+            continue
+
+        # To track how many cards we added to the current group
+        count = 0
+        # Starting value of current group
+        curr = arr[i]
+
+        # Try to form a group of size 'k'
+        for j in range(i, len(arr)):
+            if arr[j] == curr:
+                count += 1
+                # Move to next consecutive card
+                curr += 1
+                # Mark this card as used
+                arr[j] = -1
+            if count == k:
+                break
+
+        # If we couldn't form a full group of size k, return False
+        if count != k:
+            return False
+
+    # All cards successfully grouped
+    return True
+
+if __name__ == "__main__":
+    arr = [10, 1, 2, 11]
+    k = 3
+    
+    # Check and print result
+    if validgroup(arr, k):
+        print("true")
+    else:
+        print("false")
