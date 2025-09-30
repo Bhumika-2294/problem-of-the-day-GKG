@@ -1,0 +1,31 @@
+class Solution {
+  public:
+    // recursive function to generate all binary strings
+    void binstrRec(string &s, int i, vector<string> &res) {
+        int n = s.size();
+
+        // if string is complete, add to result
+        if (i == n) {
+            res.push_back(s);
+            return;
+        }
+
+        // assign '0' at current position
+        s[i] = '0';
+        binstrRec(s, i + 1, res);
+
+        // assign '1' at current position
+        s[i] = '1';
+        binstrRec(s, i + 1, res);
+    }
+
+    vector<string> binstr(int n) {
+        string s(n, '0');
+
+        vector<string> res;
+
+        binstrRec(s, 0, res);
+
+        return res;
+    }
+};
