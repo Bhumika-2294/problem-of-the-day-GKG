@@ -1,0 +1,45 @@
+class Solution {
+  public:
+    bool wildCardRec(string &txt, string &pat, int n, int m, vector<vector<int>> &dp) {
+
+        // Empty pattern can match with a empty text only
+        if (m == 0)
+            return (n == 0);
+
+        // If result for this sub problem has been
+        // already computed, return it
+        if (dp[n][m] != -1)
+            return dp[n][m];
+
+        // Empty text can match with a pattern consisting
+        // of '*' only.
+        if (n == 0) {
+            for (int i = 0; i < m; i++)
+                if (pat[i] != '*')
+                    return dp[n][m] = false;
+            return dp[n][m] = true;
+        }
+
+        // Either the characters match or pattern has '?'
+        // move to the next in both text and pattern
+        if (txt[n - 1] == pat[m - 1] || pat[m - 1] == '?')
+            return dp[n][m] = wildCardRec(txt, pat, n - 1, m - 1, dp);
+
+        // if the current character of pattern is '*'
+        // first case: It matches with zero character
+        // second case: It matches with one or more characters
+        if (pat[m - 1] == '*')
+            return dp[n][m] = wildCardRec(txt, pat, n, m - 1, dp) ||
+                              wildCardRec(txt, pat, n - 1, m, dp);
+
+        return dp[n][m] = false;
+    }
+
+    bool wildCard(string &txt, string &pat) {
+        int n = txt.size();
+        int m = pat.size();
+
+        vector<vector<int>> dp(n + 1, vector<int>(m + 1, -1));
+        return wildCardRec(txt, pat, n, m, dp);
+    }
+};
