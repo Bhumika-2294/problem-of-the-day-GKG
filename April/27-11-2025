@@ -1,0 +1,12 @@
+vclass Solution {
+  public:
+    int subsetXORSum(vector<int>& arr) {
+        int result = 0;
+        // Saving all "1" bits
+        for (int i = 0; i < arr.size(); i++) {
+            result |= arr[i];
+        }
+        // Finding the sum (equivalent to (2^(x - 1)) * 2^(n - 1) )
+        return result << (arr.size() - 1);
+    }
+};
