@@ -1,0 +1,60 @@
+class Solution {
+  public:
+
+    class TrieNode {
+      public:
+        TrieNode* child[2];
+        int cnt;
+
+        TrieNode() {
+            child[0] = child[1] = NULL;
+            cnt = 0;
+        }
+    };
+
+    // Insert number into Trie
+    void insertTrie(TrieNode* root, int n) {
+        for (int i = 31; i >= 0; i--) {
+            bool bit = (n & (1 << i)) != 0;
+
+            if (!root->child[bit]) {
+                root->child[bit] = new TrieNode();
+            }
+
+            root->child[bit]->cnt += 1;
+            root = root->child[bit];
+        }
+    }
+
+    // Count elements already inserted whose XOR with n < k
+    int cntSmaller(TrieNode* root, int n, int k) {
+        int cntPairs = 0;
+
+        for (int i = 31; i >= 0 && root; i--) {
+            bool bitN = (n & (1 << i)) != 0;
+            bool bitK = (k & (1 << i)) != 0;
+
+            if (bitK) {
+                if (root->child[bitN]) {
+                    cntPairs += root->child[bitN]->cnt;
+                }
+                root = root->child[1 - bitN];
+            } else {
+                root = root->child[bitN];
+            }
+        }
+        return cntPairs;
+    }
+
+    // Main function to be called by driver
+    int cntPairs(vector<int>& arr, int k) {
+        TrieNode* root = new TrieNode();
+        int totalPairs = 0;
+
+        for (int x : arr) {
+            totalPairs += cntSmaller(root, x, k);
+            insertTrie(root, x);
+        }
+        return totalPairs;
+    }
+};
