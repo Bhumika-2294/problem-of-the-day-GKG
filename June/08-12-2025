@@ -1,0 +1,52 @@
+class Solution {
+  public:
+    string matrixChainOrder(vector<int> &arr) {
+        int n = arr.size();
+
+        // dp[i][j] stores a pair: matrix order, minimum cost
+        vector<vector<pair<string, int>>> dp(n, vector<pair<string, int>>(n, {"", 0}));
+
+        // Base Case: Initializing diagonal of the dp
+        // Cost for multiplying a single matrix is zero
+        for (int i = 0; i < n; i++) {
+
+            string temp = "";
+
+            // Label the matrices as A, B, C, ...
+            temp += char('A' + i);
+
+            // No cost for multiplying a single matrix
+            dp[i][i] = {temp, 0};
+        }
+
+        // Fill the DP table for chain lengths greater than 1
+        for (int len = 2; len < n; len++) {
+            for (int i = 0; i < n - len; i++) {
+                int j = i + len - 1;
+                int cost = INT_MAX;
+                string str;
+
+                // Try all possible split points k between i and j
+                for (int k = i + 1; k <= j; k++) {
+
+                    // Calculate the cost of multiplying
+                    // matrices from i to k and from k to j
+                    int currCost = dp[i][k - 1].second + dp[k][j].second +
+                                   arr[i] * arr[k] * arr[j + 1];
+
+                    // Update if we find a lower cost
+                    if (currCost < cost) {
+                        cost = currCost;
+                        str = "(" + dp[i][k - 1].first + dp[k][j].first + ")";
+                    }
+                }
+
+                dp[i][j] = {str, cost};
+            }
+        }
+
+        // Return the optimal matrix order
+        // for the entire chain
+        return dp[0][n - 2].first;
+    }
+};
