@@ -1,0 +1,63 @@
+0 ≤ c1 ≤ c2 ≤ m - 1
+
+Expected Complexities
+Topic Tags
+Related Articles
+C++ (17)
+
+        
+
+
+ 
+
+Custom Input
+If you are facing any issue on this page. Please let us know.
+ Full Solution
+
+class Solution {
+  public:
+    vector<int> prefixSum2D(vector<vector<int>> &mat, vector<vector<int>> &queries) {
+        int rows = mat.size(), cols = mat[0].size();
+
+        // build prefix sum over rows
+        for (int i = 1; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                mat[i][j] += mat[i - 1][j];
+            }
+        }
+
+        // build prefix sum over columns
+        for (int j = 1; j < cols; j++) {
+            for (int i = 0; i < rows; i++) {
+                mat[i][j] += mat[i][j - 1];
+            }
+        }
+
+        vector<int> result;
+
+        // process each query using inclusion-exclusion
+        for (auto &q : queries) {
+            int r1 = q[0], c1 = q[1], r2 = q[2], c2 = q[3];
+
+            // get the total prefix sum from (0,0) to (r2,c2)
+            int total = mat[r2][c2];
+
+            // subtract the area above the submatrix (if any)
+            int left = (c1 > 0) ? mat[r2][c1 - 1] : 0;
+
+            // subtract the area to the left of the submatrix (if any)
+            int top = (r1 > 0) ? mat[r1 - 1][c2] : 0;
+
+            // add back the top-left overlapping area,
+            // which was subtracted twice
+            int overlap = (r1 > 0 && c1 > 0) ? mat[r1 - 1][c1 - 1] : 0;
+
+            // final submatrix sum using inclusion-exclusion
+            int sum = total - left - top + overlap;
+
+            result.push_back(sum);
+        }
+
+        return result;
+    }
+};
