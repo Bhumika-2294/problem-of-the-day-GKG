@@ -1,0 +1,22 @@
+class Solution {
+  public:
+    void sortIt(vector<int> &arr) {
+        // Make odd elements negative
+        for (int i = 0; i < arr.size(); i++) {
+            if (arr[i] % 2 == 1) {
+                arr[i] *= -1;
+            }
+        }
+
+        // Sort entire array
+        sort(arr.begin(), arr.end());
+
+        // Make negative elements (originally odds)
+        // positive again
+        for (int i = 0; i < arr.size(); i++) {
+            if (arr[i] < 0) {
+                arr[i] *= -1;
+            }
+        }
+    }
+};
