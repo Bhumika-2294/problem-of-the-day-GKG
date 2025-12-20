@@ -1,0 +1,7 @@
+class Solution {
+  public:
+    int searchInsertK(vector<int> &arr, int k) {
+        // using lower_bound to find the position where k can be inserted
+        return lower_bound(arr.begin(), arr.end(), k) - arr.begin();
+    }
+};
