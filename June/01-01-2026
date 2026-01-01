@@ -1,0 +1,26 @@
+class Solution {
+  public:
+    Node* intersectPoint(Node* head1, Node* head2) {
+
+        // maintaining two pointers ptr1 and ptr2
+        // at the heads of the lists
+        Node* ptr1 = head1;
+        Node* ptr2 = head2;
+
+        // if any one of the heads is NULL, there is no intersection
+        if (ptr1 == nullptr || ptr2 == nullptr)
+            return nullptr;
+
+        // traverse through the lists until both pointers meet
+        while (ptr1 != ptr2) {
+
+            // move to the next node in each list and if the one
+            // pointer reaches NULL, start from the other linked list
+            ptr1 = ptr1 ? ptr1->next : head2;
+            ptr2 = ptr2 ? ptr2->next : head1;
+        }
+
+        // return the intersection node, or nullptr if no intersection
+        return ptr1;
+    }
+};
