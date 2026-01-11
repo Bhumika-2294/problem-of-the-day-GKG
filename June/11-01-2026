@@ -1,0 +1,61 @@
+class Solution {
+  public:
+    string minWindow(string& s1, string& s2) {
+
+        int s = s1.size();
+        int t = s2.size();
+
+        // Creating a 2D array to store the indices of matching characters between str1
+        // and str2
+        int dp[s + 1][t + 1];
+        memset(dp, -1, sizeof(dp));
+
+        // If the characters match, store the index in dp[i][0]
+        for (int i = 0; i < s; i++) {
+            if (s1[i] == s2[0]) {
+                dp[i][0] = i;
+            } else {
+                if (i != 0) {
+                    dp[i][0] = dp[i - 1][0];
+                }
+            }
+        }
+
+        // For each character in str1 and str2, check if they match and store the index
+        // in dp
+        for (int i = 1; i < s; i++) {
+            for (int j = 1; j < t; j++) {
+                if (s1[i] == s2[j]) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+
+        int begin =
+            -1; // Variable to store the initial index of the minimum window substring
+        int len =
+            INT_MAX; // Variable to store the length of the minimum window substring
+
+        // Traverse through the dp array to find the minimum window substring
+        for (int i = 0; i < s; i++) {
+            int index = dp[i][t - 1];
+            if (index != -1) {
+                int curr_len = i - index + 1;
+                if (curr_len < len) {
+                    begin = index;
+                    len = curr_len;
+                }
+            }
+        }
+
+        // If no minimum window substring is found, return an empty string
+        if (begin == -1) {
+            return "";
+        } else {
+            // Return the minimum window substring using substr()
+            return s1.substr(begin, len);
+        }
+    }
+};
