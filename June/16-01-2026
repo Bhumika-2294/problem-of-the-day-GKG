@@ -1,0 +1,54 @@
+class Solution {
+  public:
+    int minMen(vector<int>& arr) {
+        int n = arr.size();
+        vector<pair<int, int>> range;
+
+        // Build intervals [i - arr[i], i + arr[i]] for each valid worker
+        for (int i = 0; i < n; i++) {
+            if (arr[i] != -1) {
+                int left = max(0, i - arr[i]);
+                int right = min(n - 1, i + arr[i]);
+                range.push_back({left, right});
+            }
+        }
+        // No workers available
+        if (range.empty())
+            return -1;
+
+        // Sort by left bound; if same, prefer
+        // the one with farther right
+        sort(range.begin(), range.end(),
+             [](const pair<int, int>& a, const pair<int, int>& b) {
+                 if (a.first == b.first)
+                     return a.second > b.second;
+                 return a.first < b.first;
+             });
+
+        int men = 0, i = 0, maxi = -1;
+
+        while (maxi < n - 1) {
+
+            // No more intervals
+            if (i >= (int)range.size())
+                return -1;
+
+            // Gap detected, cannot cover
+            if (range[i].first > maxi + 1)
+                return -1;
+
+            int best = maxi;
+            // Extend coverage as far as possible with
+            // current overlapping intervals
+            while (i < (int)range.size() && range[i].first <= maxi + 1) {
+                best = max(best, range[i].second);
+                i++;
+            }
+
+            men++;
+            maxi = best;
+        }
+
+        return men;
+    }
+};
