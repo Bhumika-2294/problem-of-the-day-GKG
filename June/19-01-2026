@@ -1,0 +1,33 @@
+class Solution {
+  public:
+    string removeKdig(string &s, int k) {
+        int n = s.size();
+        stack<char> stk;
+
+        for (char c : s) {
+            // Remove larger digits before current if possible
+            while (!stk.empty() && k > 0 && stk.top() > c) {
+                stk.pop();
+                k--;
+            }
+            // Avoid leading zeros
+            if (!stk.empty() || c != '0')
+                stk.push(c);
+        }
+
+        // Remove remaining digits if k > 0
+        while (!stk.empty() && k--)
+            stk.pop();
+
+        if (stk.empty())
+            return "0";
+
+        // Rebuild number from stack
+        while (!stk.empty()) {
+            s[n - 1] = stk.top();
+            stk.pop();
+            n--;
+        }
+        return s.substr(n);
+    }
+};
