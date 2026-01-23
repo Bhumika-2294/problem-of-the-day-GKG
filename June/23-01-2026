@@ -1,0 +1,40 @@
+class Solution {
+  public:
+    int maxPeople(vector<int>& arr) {
+        int n = arr.size();
+
+        // Initialize each person sees himself
+        vector<int> left(n, 1), right(n, 1);
+        stack<int> st;
+
+        // Compute left visibility using a decreasing stack
+        for (int i = 0; i < n; i++) {
+            while (!st.empty() && arr[st.top()] < arr[i]) {
+                left[i] += left[st.top()];
+                st.pop();
+            }
+            st.push(i);
+        }
+
+        // Clear stack for right computation
+        while (!st.empty())
+            st.pop();
+
+        // Compute right visibility using a decreasing stack
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st.empty() && arr[st.top()] < arr[i]) {
+                right[i] += right[st.top()];
+                st.pop();
+            }
+            st.push(i);
+        }
+
+        // Find the max people visible
+        int maxCount = 0;
+        for (int i = 0; i < n; i++) {
+            maxCount = max(maxCount, left[i] + right[i] - 1);
+        }
+
+        return maxCount;
+    }
+};
