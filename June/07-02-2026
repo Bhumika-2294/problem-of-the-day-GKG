@@ -1,0 +1,36 @@
+class Solution {
+  public:
+    int maxSum(vector<int> &arr) {
+        int n = arr.size();
+
+        // Compute sum of all array elements
+        int curSum = 0;
+        for (int i = 0; i < n; i++)
+            curSum += arr[i];
+
+        // Compute sum of i*arr[i] for initial
+        // configuration.
+        int currVal = 0;
+
+        for (int i = 0; i < n; i++)
+            currVal += i * arr[i];
+
+        // Initialize result
+        int res = currVal;
+
+        // Compute values for other iterations
+        for (int i = 1; i < n; i++) {
+
+            // Compute next value using previous
+            int nextVal = currVal - (curSum - arr[i - 1]) + arr[i - 1] * (n - 1);
+
+            // Update current value
+            currVal = nextVal;
+
+            // Update result if required
+            res = max(res, nextVal);
+        }
+
+        return res;
+    }
+};
